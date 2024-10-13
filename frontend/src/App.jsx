@@ -18,6 +18,7 @@ import Unauth from "./pages/unauth/Unauth";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/auth_slice";
+import { Skeleton } from "./components/ui/skeleton";
 
 const App = () => {
 
@@ -37,7 +38,7 @@ const App = () => {
 
 
   if(isLoading) {
-    return <div>loading...</div>
+    return <Skeleton className="w-full bg-black" />
   }
 
   return (
