@@ -151,7 +151,7 @@ export const addProduct = async (req, res) => {
       console.log(e);
       res.status(500).json({
         success: false,
-        message: "Error occured",
+        message: e.message,
       });
     }
   };

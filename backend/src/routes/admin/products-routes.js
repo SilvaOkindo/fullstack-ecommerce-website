@@ -7,5 +7,5 @@ export const productsRouter = express.Router();
 productsRouter.post("/upload-image", upload.single("my_file"), uploadImage);
 productsRouter.post("/products", addProduct)
 productsRouter.get("/products", fetchAllProducts)
-productsRouter.put("/produts:id", editProduct)
+productsRouter.put("/products/:id", editProduct)
 productsRouter.delete("/products/:id", deleteProduct)

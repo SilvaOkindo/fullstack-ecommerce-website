@@ -66,6 +66,7 @@ export const login = async (req, res) => {
         id: findUser._id,
         role: findUser.role,
         email: findUser.email,
+        username: findUser.username
       },
       "CLIENT_SECRET_KEY",
       { expiresIn: "60min" }
@@ -83,6 +84,7 @@ export const login = async (req, res) => {
           email: findUser.email,
           role: findUser.role,
           id: findUser._id,
+          username: findUser.username
         },
       });
 
