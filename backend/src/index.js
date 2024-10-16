@@ -6,6 +6,7 @@ import cors from "cors"
 import { connectDB } from "./config/connect-db.js"
 import { authRouter } from "./routes/auth-routes.js"
 import { productsRouter } from "./routes/admin/products-routes.js"
+import { shopRouter } from "./routes/shop/product-routes.js"
 
 dotenv.config()
 
@@ -37,6 +38,7 @@ app.use(express.json())
 
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/admin", productsRouter)
+app.use("/api/v1/shop", shopRouter)
 
 const PORT = process.env.PORT || 3000
 

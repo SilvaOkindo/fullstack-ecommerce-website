@@ -38,7 +38,7 @@ const AdminProducts = () => {
   const [formData, setFormData] = useState(initialFormData);
 
   const [imageFile, setImageFile] = useState("");
-  const [uploadImageUrl, setUploadImageUrl] = useState();
+  const [uploadImageUrl, setUploadedImageUrl] = useState();
   const [imageLoadingState, setImageLoadingState] = useState(false);
   const dispatch = useDispatch();
   const { productList } = useSelector((state) => state.adminProducts);
@@ -140,7 +140,7 @@ const AdminProducts = () => {
             imageFile={imageFile}
             setImageFile={setImageFile}
             uploadImageUrl={uploadImageUrl}
-            setUploadImageUrl={setUploadImageUrl}
+            setUploadedImageUrl={setUploadedImageUrl}
             setImageLoadingState={setImageLoadingState}
             imageLoadingState={imageLoadingState}
             isEditMode={currentEditedId !== null}
