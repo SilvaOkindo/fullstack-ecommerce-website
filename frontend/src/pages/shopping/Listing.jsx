@@ -1,3 +1,4 @@
+import ProductDetails from "@/components/shopping/product-details";
 import ShoppingProductTile from "@/components/shopping/product-tile";
 import ProductFilter from "@/components/shopping/ProductFilter";
 import { Button } from "@/components/ui/button";
@@ -8,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config";
-import { fetchFilteredProducts } from "@/store/shop";
+import { fetchFilteredProducts, fetchProductDetails } from "@/store/shop";
 import { DropdownMenuRadioGroup } from "@radix-ui/react-dropdown-menu";
 import { ArrowUpDownIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -20,6 +21,10 @@ const Listing = () => {
   const [filters, setFilters] = useState();
   const [sort, setSort] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
+  const { productList, productDetails } = useSelector(
+    (state) => state.shopProducts
+  );
 
   //sort function
 
@@ -27,7 +32,6 @@ const Listing = () => {
     console.log(value);
     setSort(value);
   };
-  
 
   // filter function
   const handleFilter = (getSectionId, getCurrentOption) => {
@@ -68,6 +72,18 @@ const Listing = () => {
     return queryParams.join("&");
   }
 
+  // get product details function
+  const handleGetProductDetails = (productId) => {
+    //console.log("product clicked ID", productId)
+    dispatch(fetchProductDetails(productId));
+  };
+
+  //console.log(productDetails?._id)
+
+  useEffect(() => {
+    if (productDetails !== null) setOpenDetailsDialog(true);
+  }, [productDetails]);
+
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
@@ -80,8 +96,6 @@ const Listing = () => {
     }
   }, [filters]);
 
-
-
   useEffect(() => {
     if (filters !== null && sort !== null) {
       dispatch(
@@ -90,9 +104,7 @@ const Listing = () => {
     }
   }, [dispatch, sort, filters]);
 
-  console.log(filters, "filters");
-
-  const { productList } = useSelector((state) => state.shopProducts);
+  //console.log(productDetails, "details");
 
   // console.log(productList, "product list in shop");
 
@@ -137,11 +149,17 @@ const Listing = () => {
                 <ShoppingProductTile
                   key={productItem._id}
                   product={productItem}
+                  handleGetProductDetails={handleGetProductDetails}
                 />
               ))
             : null}
         </div>
       </div>
+      <ProductDetails
+        open={openDetailsDialog}
+        setOpen={setOpenDetailsDialog}
+        productDetails={productDetails}
+      />
     </div>
   );
 };
