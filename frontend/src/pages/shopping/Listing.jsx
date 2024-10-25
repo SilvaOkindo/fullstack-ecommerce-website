@@ -9,7 +9,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config";
+import { useToast } from "@/hooks/use-toast";
 import { fetchFilteredProducts, fetchProductDetails } from "@/store/shop";
+import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { DropdownMenuRadioGroup } from "@radix-ui/react-dropdown-menu";
 import { ArrowUpDownIcon } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -25,6 +27,11 @@ const Listing = () => {
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
   );
+
+  const {toast} = useToast()
+
+  const {user} = useSelector(state => state.auth)
+  const {cartItems} = useSelector(state => state.shopCart)
 
   //sort function
 
@@ -72,6 +79,17 @@ const Listing = () => {
     return queryParams.join("&");
   }
 
+  const handleAddToCart = (getProductId) => {
+    dispatch(addToCart({userId: user?.id, productId: getProductId, quantity: 1})).then((data) => {
+      if(data?.payload?.success) {
+        toast({
+          title: "Product added to cart"
+        })
+        dispatch(fetchCartItems(user?.id))
+      }
+    })
+  }
+
   // get product details function
   const handleGetProductDetails = (productId) => {
     //console.log("product clicked ID", productId)
@@ -103,6 +121,11 @@ const Listing = () => {
       );
     }
   }, [dispatch, sort, filters]);
+
+
+
+
+  //console.log(cartItems, "cartitems")
 
   //console.log(productDetails, "details");
 
@@ -150,6 +173,7 @@ const Listing = () => {
                   key={productItem._id}
                   product={productItem}
                   handleGetProductDetails={handleGetProductDetails}
+                  handleAddToCart={handleAddToCart}
                 />
               ))
             : null}
