@@ -2,9 +2,10 @@ import { Address } from "../../models/address.js";
 
 export const addAddress = async (req, res) => {
   try {
+    console.log(req.body)
     const { userId, address, city, pincode, phone, notes } = req.body;
 
-    if (!userId || !address || city || pincode || phone || notes) {
+    if (!userId || !address || !city || !pincode || !phone || !notes) {
       return res.status(400).json({
         success: false,
         message: "Invalid values",

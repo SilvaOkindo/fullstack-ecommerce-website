@@ -69,7 +69,7 @@ export const login = async (req, res) => {
         username: findUser.username
       },
       "CLIENT_SECRET_KEY",
-      { expiresIn: "60min" }
+      { expiresIn: "120min" }
     );
 
     return res

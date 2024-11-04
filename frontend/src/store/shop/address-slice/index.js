@@ -6,7 +6,7 @@ const initialState = {
   addresses: [],
 };
 
-const addAddress = createAsyncThunk("address/addAddress", async (formData) => {
+export const addAddress = createAsyncThunk("address/addAddress", async (formData) => {
   const response = await axios.post(
     "http://localhost:3000/api/v1/address/add",
     formData
@@ -15,7 +15,7 @@ const addAddress = createAsyncThunk("address/addAddress", async (formData) => {
   return response.data;
 });
 
-const getAddress = createAsyncThunk("address/getAddress", async (userId) => {
+export const getAddresses = createAsyncThunk("address/getAddress", async (userId) => {
   const response = await axios.get(
     `http://localhost:3000/api/v1/address/get/${userId}`
   );
@@ -23,7 +23,7 @@ const getAddress = createAsyncThunk("address/getAddress", async (userId) => {
   return response.data;
 });
 
-const editAddress = createAsyncThunk(
+export const editAddress = createAsyncThunk(
   "address/editAddress",
   async ({ userId, addressId, formData }) => {
     const response = await axios.put(
@@ -35,7 +35,7 @@ const editAddress = createAsyncThunk(
   }
 );
 
-const deleteAddress = createAsyncThunk(
+export const deleteAddress = createAsyncThunk(
   "address/deleteAddress",
   async ({ userId, addressId }) => {
     const response = await axios.delete(
@@ -57,46 +57,21 @@ const addressSlice = createSlice({
       })
       .addCase(addAddress.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.addresses = action.payload.data;
       })
       .addCase(addAddress.rejected, (state) => {
         state.isLoading = false;
-        state.addresses = [];
       })
-      .addCase(getAddress.pending, (state) => {
+      .addCase(getAddresses.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getAddress.fulfilled, (state, action) => {
+      .addCase(getAddresses.fulfilled, (state, action) => {
         state.isLoading = false;
         state.addresses = action.payload.data;
       })
-      .addCase(getAddress.rejected, (state) => {
-        state.isLoading = false;
-        state.addresses = [];
-      })
-      .addCase(editAddress.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(editAddress.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.addresses = action.payload.data;
-      })
-      .addCase(editAddress.rejected, (state) => {
-        state.isLoading = false;
-        state.addresses = [];
-      })
-      .addCase(deleteAddress.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(deleteAddress.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.addresses = action.payload.data;
-      })
-      .addCase(deleteAddress.rejected, (state) => {
+      .addCase(getAddresses.rejected, (state) => {
         state.isLoading = false;
         state.addresses = [];
       });
-
   },
 });
 

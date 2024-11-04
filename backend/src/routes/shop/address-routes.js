@@ -6,5 +6,5 @@ export const addressRouter = express.Router()
 
 addressRouter.post("/add", addAddress)
 addressRouter.get("/get/:userId/", getAddresses)
-addressRouter.put("edit/:userId/:addressId", editAddress)
-addressRouter.delete("delete/:userId/:addressId", deleteAddress)
+addressRouter.put("/edit/:userId/:addressId", editAddress)
+addressRouter.delete("/delete/:userId/:addressId", deleteAddress)

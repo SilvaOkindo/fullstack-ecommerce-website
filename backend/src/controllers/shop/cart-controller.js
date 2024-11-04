@@ -51,14 +51,14 @@ export const addToCart = async (req, res) => {
   }
 };
 
-export const fetchCart = async (req, res) => {
+export const fetchCart = async (req, res) =>  {
     try {
         const { userId } = req.params;
     
         if (!userId) {
           return res.status(400).json({
             success: false,
-            message: "User id is manadatory!",
+            message: "User id is mandatory!",
           });
         }
     
