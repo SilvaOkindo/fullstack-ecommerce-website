@@ -93,14 +93,16 @@ function HeaderRightContent() {
           </span>
           <span className="sr-only">User cart</span>
         </Button>
-        <CartWrapper cartItems={
+        <CartWrapper 
+        setOpenCartSheet={setOpenCartSheet}
+        cartItems={
           cartItems && cartItems.items && cartItems.items.length > 0 ? cartItems.items : []
         }/>
       </Sheet>
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Avatar className="bg-black">
+          <Avatar className="bg-black cursor-pointer">
             <AvatarFallback className="bg-black text-white font-extrabold">
               {user?.username[0].toUpperCase()}
             </AvatarFallback>
@@ -125,7 +127,6 @@ function HeaderRightContent() {
 }
 
 function ShoppingHeader() {
-  const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">

@@ -1,8 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
 import UserCartContent from "./UserCartContent";
 
-const CartWrapper = ({ cartItems }) => {
+const CartWrapper = ({ cartItems, setOpenCartSheet }) => {
   const totalCartAmount =
     cartItems && cartItems.length > 0
       ? cartItems.reduce(
@@ -14,6 +15,8 @@ const CartWrapper = ({ cartItems }) => {
               currentItem?.quantity, 0
         )
       : 0;
+
+      const navigate = useNavigate()
 
   return (
     <SheetContent className="sm:max-w-md flex flex-col gap-6">
@@ -29,7 +32,10 @@ const CartWrapper = ({ cartItems }) => {
         <span className="text-base font-semibold">Total</span>
         <span className="text-base font-semibold">${totalCartAmount}</span>
       </div>
-      <Button className="w-full">Checkout</Button>
+      <Button onClick={() =>{
+        setOpenCartSheet(false)
+        navigate('/shop/checkout')}
+        } className="w-full">Checkout</Button>
     </SheetContent>
   );
 };

@@ -1,6 +1,5 @@
-import ShopOrderDetails from "@/components/shopping/ShopOrderDetails";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog } from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -9,11 +8,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+import { Dialog } from "@radix-ui/react-dialog";
 import { useState } from "react";
+import AdminOrderDetails from "./AdminOrderDetails";
 
-const ShoppingOrders = () => {
-  const [openDetailsDialog, setOpenDetailsDialog] = useState(false)
+const AdminOrdersView = () => {
+  const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
   return (
     <Card>
       <CardHeader>
@@ -33,15 +33,20 @@ const ShoppingOrders = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow className='py-2'>
+            <TableRow>
               <TableCell>123344</TableCell>
               <TableCell>12/02/2024</TableCell>
               <TableCell>pending</TableCell>
               <TableCell>$100</TableCell>
-             <Dialog open={openDetailsDialog} onOpenChange={setOpenDetailsDialog}>
-             <Button onClick={() => setOpenDetailsDialog(true)}>View Details</Button>
-             <ShopOrderDetails />
-             </Dialog>
+              <Dialog
+                open={openDetailsDialog}
+                onOpenChange={setOpenDetailsDialog}
+              >
+                <Button onClick={() => setOpenDetailsDialog(true)}>
+                  View Details
+                </Button>
+                <AdminOrderDetails />
+              </Dialog>
             </TableRow>
           </TableBody>
         </Table>
@@ -50,4 +55,4 @@ const ShoppingOrders = () => {
   );
 };
 
-export default ShoppingOrders;
+export default AdminOrdersView;
