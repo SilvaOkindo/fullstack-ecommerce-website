@@ -9,6 +9,7 @@ import { productsRouter } from "./routes/admin/products-routes.js"
 import { shopRouter } from "./routes/shop/product-routes.js"
 import { cartRouter } from "./routes/shop/cart-routes.js"
 import { addressRouter } from "./routes/shop/address-routes.js"
+import { orderRouter } from "./routes/shop/order-routes.js"
 
 dotenv.config()
 
@@ -43,6 +44,7 @@ app.use("/api/v1/admin", productsRouter)
 app.use("/api/v1/shop", shopRouter)
 app.use("/api/v1/cart", cartRouter)
 app.use("/api/v1/address", addressRouter)
+app.use("/api/v1/shop/orders", orderRouter)
 
 const PORT = process.env.PORT || 3000
 

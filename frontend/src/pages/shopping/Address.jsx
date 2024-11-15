@@ -20,7 +20,7 @@ const initialFormData = {
   notes: "",
 };
 
-const Address = () => {
+const Address = ({setCurrentSelectedAddress}) => {
   const [formData, setFormData] = useState(initialFormData);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -35,7 +35,7 @@ const Address = () => {
     if(addresses.length >= 3 && currentId === null) {
         setFormData(initialFormData)
         toast({
-            title: "You can only 3 addresses",
+            title: "You can only add 3 addresses",
             variant: "destructive"
         })
         return
@@ -118,6 +118,7 @@ const Address = () => {
                 addressInfo={address}
                 setCurrentId={setCurrentId}
                 handleEditAddress={handleEditAddress}
+                setCurrentSelectedAddress={setCurrentSelectedAddress}
               />
             ))
           : null}
