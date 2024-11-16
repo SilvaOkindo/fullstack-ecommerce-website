@@ -1,5 +1,7 @@
 import paypal from "../../helpers/paypal.js";
 import {Order} from '../../models/order.js'
+import {Cart} from "../../models/cart.js"
+
 
 export const createOrder = async (req, res) => {
   try {
@@ -95,6 +97,33 @@ export const createOrder = async (req, res) => {
 
 export const capturOrder = async (req, res) => {
   try {
+    const {paymentId, payerId, orderId} = req.body
+    const order = await Order.findById(orderId)
+    if(!order) {
+      return res.status(400).json({
+        success: false,
+        message: "Order not found"
+      })
+    }
+
+    order.paymentStatus = "paid"
+    order.orderStatus = "confirmed"
+    order.payerId = payerId
+    order.paymentId = paymentId
+
+    await order.save()
+
+    const getCartId = order.cartId
+
+    await Cart.findByIdAndDelete(getCartId)
+
+    return res.status(200).json({
+      success: true,
+      message: "Order confirmed",
+      data: order
+    })
+
+
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -102,3 +131,58 @@ export const capturOrder = async (req, res) => {
     });
   }
 };
+
+
+export const getAllOrderByUser = async (req, res) => {
+  try {
+
+    const {userId} = req.params
+    const orders = await Order.find({userId})
+    console.log(orders)
+
+    if(!orders.length) {
+      return res.status(400).json({
+        success: false,
+        message: "Orders not found"
+      })
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: orders
+    })
+    
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    })
+  }
+}
+
+export const getOrderDetails = async (req, res) => {
+  try {
+
+    const id = req.params.id
+    const order = await Order.findById(id)
+
+    if(!order) {
+      return res.status(400).json({
+        success: false,
+        message: "Order not founs"
+      })
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: order
+    })
+    
+    
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    })
+  }
+}
